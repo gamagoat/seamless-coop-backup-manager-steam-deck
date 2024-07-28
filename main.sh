@@ -11,12 +11,10 @@ set_latest_er() {
   local compatdata_id_var="COMPATDATA_ID_${converted_version}"
   local compatdata_id="${!compatdata_id_var}"
 
-  LATEST_ER="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}"
+  LATEST_ER="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}/"
 
-  if [[ -n "$compatdata_id" ]]; then
-    LATEST_ER="${BASE_PATH}/${compatdata_id}${ER_PFX_PATH}"
-  else
-    echo "Error: No path found for version $SEAMLESS_VERSION." >&2
+  if [[ -z "$compatdata_id" ]]; then
+    gum log --structured --level error "$compatdata_id_var is not set."
     exit 1
   fi
 }
