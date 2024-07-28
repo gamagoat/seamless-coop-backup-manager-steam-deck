@@ -6,8 +6,8 @@ LATEST_ER=""
 
 set_latest_er() {
   local converted_version
-  converted_version=$(echo "$SEAMLESS_VERSION" | sed 's/\./_/g')
-
+  # X.Y.Z becomes X_Y_Z
+  converted_version=${SEAMLESS_VERSION//\./_}
   local compatdata_id_var="COMPATDATA_ID_${converted_version}"
   local compatdata_id="${!compatdata_id_var}"
 
