@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config.sh"
-
 LATEST_ER=""
 
 set_latest_er() {
