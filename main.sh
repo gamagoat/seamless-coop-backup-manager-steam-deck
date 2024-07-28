@@ -31,17 +31,29 @@ execute_remote() {
 backup_save() {
   log debug "Attempting to backup a save on the remote"
 
-  execute_remote "
+  local backup_version_dir
+  backup_version_dir="$DECK_BACKUP_DIR/$SEAMLESS_VERSION"
+
+  log debug "$backup_version_dir will be created on the deck if it does not already exist."
+
+  local backup_file
+  backup_file="$backup_version_dir/ER0000-$(date +'%Y-%m-%d-%H-%M').co2.bak"
+
+  if execute_remote "
     DECK_BACKUP_DIR='$DECK_BACKUP_DIR'
     LATEST_ER='$LATEST_ER'
     SEAMLESS_VERSION='$SEAMLESS_VERSION'
-    
-    backup_version_dir=\"\$DECK_BACKUP_DIR/\$SEAMLESS_VERSION\"
+    backup_file='$backup_file'
+    backup_version_dir='$backup_version_dir'
+
     [ ! -d \"\$backup_version_dir\" ] && mkdir -p \"\$backup_version_dir\"
 
-    backup_file=\"\$backup_version_dir/ER0000-\$(date +'%Y-%m-%d-%H-%M').co2.bak\"
-    cp \"\$LATEST_ER/ER0000.co2\" \"\$backup_file\" && echo \"Backup created at \$backup_file\"
-  "
+    cp \"\$LATEST_ER/ER0000.co2\" \"\$backup_file\"
+  "; then
+    log info "Backup created at $backup_file"
+  else
+    log error "Backup failed on remote."
+  fi
 }
 
 sync_saves_to_local() {
