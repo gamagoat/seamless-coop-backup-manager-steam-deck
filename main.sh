@@ -13,11 +13,6 @@ set_latest_er() {
 
   LATEST_ER="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}/"
 
-  gum log --structured --level debug -- "Attempting to backup a save on the remote"
-  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
-  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
-  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
-
   if [[ -z "$compatdata_id" ]]; then
     gum log --structured --level error "$compatdata_id_var is not set."
     exit 1
@@ -30,6 +25,10 @@ execute_remote() {
 }
 
 backup_save() {
+  gum log --structured --level debug -- "Attempting to backup a save on the remote"
+  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
+  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
+  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
 
   execute_remote "
     BACKUP_DIR='$BACKUP_DIR'
@@ -46,7 +45,8 @@ backup_save() {
 
 display_menu() {
   gum style --bold --border double --border-foreground 212 \
-    --align center --width 50 --margin "1 2" --padding "1 1" "SeamlessCoop Backup Manager"
+    --align center --width 50 --margin "1 2" --padding "1 1" \
+    "SeamlessCoop Backup Manager for Steam Deck"
 
   local options=("Create New Backup" "Exit")
   local choice
