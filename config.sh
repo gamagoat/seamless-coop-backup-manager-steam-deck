@@ -11,6 +11,6 @@ export COMPATDATA_ID_1_7_8="3982417978"
 export COMPATDATA_ID_1_7_9="2175444747"
 export COMPATDATA_ID_1_8_0="4000349352"
 
-# This should be the version of seamless coop that you are using currently
+c
 export SEAMLESS_VERSION="1.8.0"
-export BACKUP_DIR="/home/deck/backups/eldenring"
+export DECK_BACKUP_DIR="/home/deck/backups/eldenring"

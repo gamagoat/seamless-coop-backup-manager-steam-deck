@@ -26,16 +26,16 @@ execute_remote() {
 
 backup_save() {
   gum log --structured --level debug -- "Attempting to backup a save on the remote"
-  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
+  gum log --structured --level debug -- "DECK_BACKUP_DIR: $DECK_BACKUP_DIR"
   gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
   gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
 
   execute_remote "
-    BACKUP_DIR='$BACKUP_DIR'
+    DECK_BACKUP_DIR='$DECK_BACKUP_DIR'
     LATEST_ER='$LATEST_ER'
     SEAMLESS_VERSION='$SEAMLESS_VERSION'
     
-    backup_version_dir=\"\$BACKUP_DIR/\$SEAMLESS_VERSION\"
+    backup_version_dir=\"\$DECK_BACKUP_DIR/\$SEAMLESS_VERSION\"
     [ ! -d \"\$backup_version_dir\" ] && mkdir -p \"\$backup_version_dir\"
 
     backup_file=\"\$backup_version_dir/ER0000-\$(date +'%Y-%m-%d-%H-%M').co2.bak\"
