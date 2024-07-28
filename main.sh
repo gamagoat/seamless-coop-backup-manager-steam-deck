@@ -13,6 +13,11 @@ set_latest_er() {
 
   LATEST_ER="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}/"
 
+  gum log --structured --level debug -- "Attempting to backup a save on the remote"
+  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
+  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
+  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
+
   if [[ -z "$compatdata_id" ]]; then
     gum log --structured --level error "$compatdata_id_var is not set."
     exit 1
@@ -25,12 +30,6 @@ execute_remote() {
 }
 
 backup_save() {
-  set_latest_er
-
-  gum log --structured --level debug -- "Attempting to backup a save on the remote"
-  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
-  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
-  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
 
   execute_remote "
     BACKUP_DIR='$BACKUP_DIR'
@@ -68,4 +67,9 @@ display_menu() {
   esac
 }
 
-display_menu
+main() {
+  set_latest_er
+  display_menu
+}
+
+main
