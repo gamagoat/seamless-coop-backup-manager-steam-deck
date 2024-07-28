@@ -29,26 +29,27 @@ execute_remote() {
 backup_save() {
   set_latest_er
 
+  gum log --structured --level debug -- "Attempting to backup a save on the remote"
+  gum log --structured --level debug -- "BACKUP_DIR: $BACKUP_DIR"
+  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
+  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
+
   execute_remote "
     BACKUP_DIR='$BACKUP_DIR'
     LATEST_ER='$LATEST_ER'
     SEAMLESS_VERSION='$SEAMLESS_VERSION'
-
-    echo \"Remote BACKUP_DIR: \$BACKUP_DIR\"
-    echo \"Remote LATEST_ER: \$LATEST_ER\"
-
+    
     backup_version_dir=\"\$BACKUP_DIR/\$SEAMLESS_VERSION\"
     [ ! -d \"\$backup_version_dir\" ] && mkdir -p \"\$backup_version_dir\"
 
     backup_file=\"\$backup_version_dir/ER0000-\$(date +'%Y-%m-%d-%H-%M').co2.bak\"
-    echo \"Backup file: \$backup_file\"
     cp \"\$LATEST_ER/ER0000.co2\" \"\$backup_file\" && echo \"Backup created at \$backup_file\"
   "
 }
 
 display_menu() {
-  gum style --bold --border double --foreground 212 --border-foreground 57 \
-    --align center --width 50 --margin "1 2" --padding "2 2" "SeamlessCoop Backup Manager"
+  gum style --bold --border double --border-foreground 212 \
+    --align center --width 50 --margin "1 2" --padding "1 1" "SeamlessCoop Backup Manager"
 
   local options=("Create New Backup" "Exit")
   local choice
