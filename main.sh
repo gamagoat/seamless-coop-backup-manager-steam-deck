@@ -17,13 +17,19 @@ set_latest_er() {
   fi
 }
 
+log() {
+  local level="$1"
+  shift
+  gum log --structured --level "$level" -- "$@"
+}
+
 execute_remote() {
   local cmd="$1"
   ssh "$SSH_TARGET" "$cmd"
 }
 
 backup_save() {
-  gum log --structured --level debug -- "Attempting to backup a save on the remote"
+  log debug "Attempting to backup a save on the remote"
 
   execute_remote "
     DECK_BACKUP_DIR='$DECK_BACKUP_DIR'
@@ -39,7 +45,7 @@ backup_save() {
 }
 
 sync_saves_to_local() {
-  gum log --structured --level debug -- "Attempting to sync saves from the Deck to local"
+  log debug "Attempting to sync saves from the Deck to local"
 
   if [[ ! -d "$LOCAL_BACKUP_DIR" ]]; then
     if gum confirm --default="no" "Local backup directory $LOCAL_BACKUP_DIR does not exist. Create it?"; then
@@ -52,9 +58,9 @@ sync_saves_to_local() {
   fi
 
   if rsync -av --ignore-existing "$SSH_TARGET:$DECK_BACKUP_DIR/" "$LOCAL_BACKUP_DIR/"; then
-    gum log --structured --level debug "Sync completed from $DECK_BACKUP_DIR to $LOCAL_BACKUP_DIR"
+    log debug "Sync completed from $DECK_BACKUP_DIR to $LOCAL_BACKUP_DIR"
   else
-    gum log --structured --level error "Sync failed from $DECK_BACKUP_DIR to $LOCAL_BACKUP_DIR"
+    log error "Sync failed from $DECK_BACKUP_DIR to $LOCAL_BACKUP_DIR"
   fi
 
 }
@@ -89,10 +95,10 @@ display_menu() {
 main() {
   set_latest_er
 
-  gum log --structured --level debug -- "DECK_BACKUP_DIR: $DECK_BACKUP_DIR"
-  gum log --structured --level debug -- "LATEST_ER: $LATEST_ER"
-  gum log --structured --level debug -- "SEAMLESS_VERSION: $SEAMLESS_VERSION"
-  gum log --structured --level debug -- "LOCAL_BACKUP_DIR: $LOCAL_BACKUP_DIR"
+  log debug "DECK_BACKUP_DIR: $DECK_BACKUP_DIR"
+  log debug "LATEST_ER: $LATEST_ER"
+  log debug "SEAMLESS_VERSION: $SEAMLESS_VERSION"
+  log debug "LOCAL_BACKUP_DIR: $LOCAL_BACKUP_DIR"
 
   display_menu
 }
