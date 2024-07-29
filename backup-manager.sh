@@ -1,15 +1,15 @@
 #!/bin/bash
 
-LATEST_ER=""
+LATEST_COMPATDATA_PATH=""
 
-set_latest_er() {
+set_latest_compatdata_path() {
   local converted_version
   # X.Y.Z becomes X_Y_Z
   converted_version=${SEAMLESS_VERSION//\./_}
   local compatdata_id_var="COMPATDATA_ID_${converted_version}"
   local compatdata_id="${!compatdata_id_var}"
 
-  LATEST_ER="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}/"
+  LATEST_COMPATDATA_PATH="${BASE_PATH}/${compatdata_id}/${ER_PFX_PATH}/"
 
   if [[ -z "$compatdata_id" ]]; then
     gum log --structured --level error "$compatdata_id_var is not set."
@@ -41,14 +41,14 @@ backup_save() {
 
   if execute_remote "
     DECK_BACKUP_DIR='$DECK_BACKUP_DIR'
-    LATEST_ER='$LATEST_ER'
+    LATEST_COMPATDATA_PATH='$LATEST_COMPATDATA_PATH'
     SEAMLESS_VERSION='$SEAMLESS_VERSION'
     backup_file='$backup_file'
     backup_version_dir='$backup_version_dir'
 
     [ ! -d \"\$backup_version_dir\" ] && mkdir -p \"\$backup_version_dir\"
 
-    cp \"\$LATEST_ER/ER0000.co2\" \"\$backup_file\"
+    cp \"\$LATEST_COMPATDATA_PATH/ER0000.co2\" \"\$backup_file\"
   "; then
     log info "Backup created at $backup_file"
   else
@@ -123,10 +123,10 @@ display_menu() {
 }
 
 main() {
-  set_latest_er
+  set_latest_compatdata_path
 
   log debug "DECK_BACKUP_DIR: $DECK_BACKUP_DIR"
-  log debug "LATEST_ER: $LATEST_ER"
+  log debug "LATEST_COMPATDATA_PATH: $LATEST_COMPATDATA_PATH"
   log debug "SEAMLESS_VERSION: $SEAMLESS_VERSION"
   log debug "LOCAL_BACKUP_DIR: $LOCAL_BACKUP_DIR"
 
