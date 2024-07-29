@@ -2,6 +2,8 @@
 
 A bash utility for managing backups of Elden Ring SeamlessCoop saves.
 
+![General usage](assets/usage.gif)
+
 ## Motivation
 
 Managing SeamlessCoop versions on Steam Deck has a few challenges, such as
@@ -28,8 +30,6 @@ need:
 This script written and tested using bash on macOS.
 
 ## Usage
-
-![General usage](assets/usage.gif)
 
 ### Environment setup
 
