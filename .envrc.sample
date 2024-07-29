@@ -18,8 +18,17 @@ export LOCAL_BACKUP_DIR="/Users/gamagoat/games/backups/eldenring/"
 # The format here is `COMPATDATA_ID_<seamless coop version>`.
 # These only need to be set for versions you're interested in, although
 # currently only the COMPATDATA_ID corresponding to SEAMLESS_VERSION gets used
-export COMPATDATA_ID_2_0_0_BETA="1234567"
-export COMPATDATA_ID_1_7_9="987654321"
+# in the script.
+#
+# The more versions of SeamlessCoop you've used/plan to use, the harder it gets
+# to remember which COMPATDATA_ID corresponds to which SeamlessCoop version.
+# Storing them all here gives you one way to create that mapping.
+#
+# The commented out code is to serve as examples for how you can add more
+# versions.  Again, in the script's current state, only one of these values
+# is even used.  See the TODO in README.md for planned features.
+#export COMPATDATA_ID_2_0_0_BETA="1234567"
+#export COMPATDATA_ID_1_7_9="987654321"
 export COMPATDATA_ID_1_8_0="192837465"
 
 ##################################################

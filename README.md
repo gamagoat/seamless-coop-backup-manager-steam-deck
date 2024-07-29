@@ -21,10 +21,11 @@ backups to be stored off the deck as well.
 This guide assumes you have basic terminal knowledge.  Additionally, you will
 need:
 
-- [bash](https://www.gnu.org/software/bash/)
 - [gum](https://github.com/charmbracelet/gum)
 - [direnv](https://direnv.net/)
 - [an ssh-enabled steam deck](https://github.com/gamagoat/setting-up-ssh-on-steam-deck)
+
+This script written and tested using bash on macOS.
 
 ## Usage
 
