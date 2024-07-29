@@ -23,8 +23,9 @@ log() {
   gum log --structured --level "$level" -- "$@"
 }
 
+# shellcheck disable=SC2029
 execute_remote() {
-  ssh "$SSH_TARGET" "\$1"
+  ssh "$SSH_TARGET" "$@"
 }
 
 backup_save() {
