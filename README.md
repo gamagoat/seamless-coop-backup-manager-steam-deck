@@ -29,7 +29,7 @@ need:
 ## TODO
 
 - [x] Create new backups
-- [ ] Synchronize backups to a local machine
-- [ ] List all relevant compatdata dirs
+- [x] Synchronize backups to a local machine
+- [x] List all relevant compatdata dirs
 - [ ] Transfer backups from one version of SeamlessCoop to another
 - [ ] Generalize script to work with any game on Steam Deck
