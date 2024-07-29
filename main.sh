@@ -130,7 +130,9 @@ main() {
   log debug "SEAMLESS_VERSION: $SEAMLESS_VERSION"
   log debug "LOCAL_BACKUP_DIR: $LOCAL_BACKUP_DIR"
 
-  display_menu
+  while true; do
+    display_menu
+  done
 }
 
 main
