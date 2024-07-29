@@ -74,7 +74,22 @@ sync_saves_to_local() {
   else
     log error "Sync failed from $DECK_BACKUP_DIR to $LOCAL_BACKUP_DIR"
   fi
+}
 
+find_eldenring_dirs() {
+  log debug "Attempting to find Elden Ring related directories."
+
+  if result=$(execute_remote "find /home/deck -type d -path '*/EldenRing/*'"); then
+    if [[ -n "$result" ]]; then
+      while IFS= read -r line; do
+        log info "$line"
+      done <<<"$result"
+    else
+      log error "No Elden Ring directories found on remote"
+    fi
+  else
+    log error "Unable to complete the search."
+  fi
 }
 
 display_menu() {
@@ -82,7 +97,7 @@ display_menu() {
     --align center --width 50 --margin "1 2" --padding "1 1" \
     "SeamlessCoop Backup Manager for Steam Deck"
 
-  local options=("Create New Backup" "Sync Saves to Local" "Exit")
+  local options=("Create New Backup" "Sync Saves to Local" "Find Elden Ring Directories" "Exit")
   local choice
   choice=$(gum choose "${options[@]}")
 
@@ -92,6 +107,9 @@ display_menu() {
     ;;
   "Sync Saves to Local")
     sync_saves_to_local
+    ;;
+  "Find Elden Ring Directories")
+    find_eldenring_dirs
     ;;
   "Exit")
     echo "Exiting."
