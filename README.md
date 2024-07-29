@@ -29,6 +29,8 @@ This script written and tested using bash on macOS.
 
 ## Usage
 
+![General usage](assets/usage.gif)
+
 ### Environment setup
 
 Create a copy of `.envrc.sample` that you export using `direnv`:
