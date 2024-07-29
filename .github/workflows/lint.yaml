@@ -3,16 +3,10 @@ name: Lint Script
 on: [push, pull_request]
 
 jobs:
-  lint:
+  shellcheck:
+    name: Shellcheck
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up ShellCheck
-        uses: ludeeus/action-shellcheck@v1.1.0
-
+      - uses: actions/checkout@v4
       - name: Run ShellCheck
-        run: |
-          shellcheck main.sh config.sh
+        uses: ludeeus/action-shellcheck@master
