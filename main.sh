@@ -25,7 +25,7 @@ log() {
 
 execute_remote() {
   local cmd="$1"
-  ssh "$SSH_TARGET" "$cmd"
+  ssh "$SSH_TARGET" "\$cmd"
 }
 
 backup_save() {
