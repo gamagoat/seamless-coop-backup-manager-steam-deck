@@ -1,8 +1,14 @@
+###################################################
+#                                                 #
+#         Ensure these values are correct         #
+#                                                 #
+###################################################
+
 # The latest version of SeamlessCoop that you have installed
 export SEAMLESS_VERSION="1.8.0"
 
 # Can be the the `Host` from your `.ssh/config` or a full ssh connection string
-# i.e., `deck@192.168.0.38`.
+# i.e., `deck@192.168.0.38`
 export SSH_TARGET="deck"
 
 # Where backups will be stored on the deck and on your local machine
@@ -16,6 +22,12 @@ export COMPATDATA_ID_2_0_0_BETA="1234567"
 export COMPATDATA_ID_1_7_9="987654321"
 export COMPATDATA_ID_1_8_0="192837465"
 
-# These are path variables that likely don't need to be updated
+##################################################
+#                                                #
+#   Do not change these unless you know what     #
+#                 you're doing                   #
+#                                                #
+##################################################
+
 export BASE_PATH="/home/deck/.local/share/Steam/steamapps/compatdata"
 export ER_PFX_PATH="/pfx/drive_c/users/steamuser/AppData/Roaming/EldenRing/76561198004661457"

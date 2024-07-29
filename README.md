@@ -26,6 +26,26 @@ need:
 - [direnv](https://direnv.net/)
 - [an ssh-enabled steam deck](https://github.com/gamagoat/setting-up-ssh-on-steam-deck)
 
+## Usage
+
+### Environment setup
+
+Create a copy of `.envrc.sample` that you export using `direnv`:
+
+```sh
+cp .envrc.sample .envrc
+```
+
+Modify the .envrc based on the directions therein.  Once done, lets make the
+environment variables available to our script:
+
+```sh
+direnv allow .
+```
+
+> [!NOTE]
+> Anytime you change your .envrc, you will need to run `direnv allow .` again.
+
 ## TODO
 
 - [x] Create new backups
