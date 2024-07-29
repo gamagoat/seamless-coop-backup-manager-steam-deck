@@ -49,6 +49,13 @@ direnv allow .
 
 ### Finding your compatdata dir
 
+If you're unsure where your saves are stored on your deck, you won't be able to
+fill your `COMPATDATA_ID_<SeamlessCoop version>` variable in your `.envrc`.
+The backup manager comes with a way to find all Elden Ring directories on your
+deck, including the compatdata dirs.
+
+![Find compatdata dirs](assets/find-compatdata.gif)
+
 ## TODO
 
 * [x] Create new backups
