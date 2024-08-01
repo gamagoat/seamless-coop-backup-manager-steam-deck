@@ -2,6 +2,13 @@
 
 LATEST_COMPATDATA_PATH=""
 
+# Menu options
+BACKUP_OPTION="Create New Backup"
+SYNC_OPTION="Sync Saves to Local"
+FIND_OPTION="Find Elden Ring Dirs"
+DOWNLOAD_OPTION="Download and Install Latest SeamlessCoop"
+EXIT_OPTION="Exit"
+
 set_latest_compatdata_path() {
   local converted_version
   # X.Y.Z becomes X_Y_Z
@@ -93,33 +100,44 @@ find_eldenring_dirs() {
 }
 
 display_menu() {
+
   gum style --bold --border double --border-foreground 212 \
     --align center --width 50 --margin "1 2" --padding "1 1" \
     "SeamlessCoop Backup Manager for Steam Deck"
 
-  local options=("Create New Backup" "Sync Saves to Local" "Find Elden Ring Directories" "Exit")
+  local options=(
+    "$BACKUP_OPTION"
+    "$SYNC_OPTION"
+    "$FIND_OPTION"
+    #    "$DOWNLOAD_OPTION"
+    "$EXIT_OPTION"
+  )
+
   local choice
   choice=$(gum choose "${options[@]}")
 
   case "$choice" in
-  "Create New Backup")
+  "$BACKUP_OPTION")
     backup_save
     ;;
-  "Sync Saves to Local")
+  "$SYNC_OPTION")
     sync_saves_to_local
     ;;
-  "Find Elden Ring Directories")
+  "$FIND_OPTION")
     find_eldenring_dirs
     ;;
-  "Exit")
-    echo "Exiting."
-    exit 0
+    #  "$DOWNLOAD_OPTION")
+    #    download_and_deploy_seamless_coop
+    #    ;;
+  "$EXIT_OPTION")
+    exit 1
     ;;
   *)
     echo "Invalid choice."
     exit 1
     ;;
   esac
+
 }
 
 main() {
