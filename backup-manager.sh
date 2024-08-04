@@ -99,6 +99,42 @@ find_eldenring_dirs() {
   fi
 }
 
+setup_latest_seamless_coop() {
+  log debug "Fetching the latest release information from GitHub..."
+
+  local repo
+  repo="LukeYui/EldenRingSeamlessCoopRelease"
+
+  latest_release_info=$(curl -s https://api.github.com/repos/$repo/releases/latest)
+
+  if echo "$latest_release_info" | grep -q '"message": "Not Found"'; then
+    log error "Failed to fetch the latest release information."
+    log error "Response from GitHub: $latest_release_info"
+    exit 1
+  fi
+
+  # Extract the download URL for the latest asset
+  download_url=$(echo "$latest_release_info" | grep "browser_download_url" | head -n 1 | cut -d '"' -f 4)
+
+  if [[ -z "$download_url" ]]; then
+    log error "Failed to find a download URL for the latest release."
+    exit 1
+  fi
+
+  log debug "Downloading $download_url"
+
+  curl -L -o "SeamlessCoopLatest.zip" "$download_url"
+
+  if [[ ! -f "SeamlessCoopLatest.zip" ]]; then
+    log error "Failed to download the release."
+    exit 1
+  fi
+
+  log debug "Download complete.  Transferring the file to the Steam Deck."
+
+  scp "SeamlessCoopLatest.zip" "$SSH_TARGET:$ELDEN_RING_EXE_DIR"
+}
+
 display_menu() {
 
   gum style --bold --border double --border-foreground 212 \
@@ -109,7 +145,7 @@ display_menu() {
     "$BACKUP_OPTION"
     "$SYNC_OPTION"
     "$FIND_OPTION"
-    #    "$DOWNLOAD_OPTION"
+    "$DOWNLOAD_OPTION"
     "$EXIT_OPTION"
   )
 
@@ -126,9 +162,9 @@ display_menu() {
   "$FIND_OPTION")
     find_eldenring_dirs
     ;;
-    #  "$DOWNLOAD_OPTION")
-    #    download_and_deploy_seamless_coop
-    #    ;;
+  "$DOWNLOAD_OPTION")
+    setup_latest_seamless_coop
+    ;;
   "$EXIT_OPTION")
     exit 1
     ;;
