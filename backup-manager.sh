@@ -3,8 +3,7 @@
 LATEST_COMPATDATA_PATH=""
 
 # Menu options
-BACKUP_OPTION="Create New Backup"
-SYNC_OPTION="Sync Saves to Local"
+BACKUP_OPTION="Create New Backup and Sync to Local"
 FIND_OPTION="Find Elden Ring Dirs"
 DOWNLOAD_OPTION="Download and Install Latest SeamlessCoop"
 EXIT_OPTION="Exit"
@@ -107,7 +106,6 @@ display_menu() {
 
   local options=(
     "$BACKUP_OPTION"
-    "$SYNC_OPTION"
     "$FIND_OPTION"
     #    "$DOWNLOAD_OPTION"
     "$EXIT_OPTION"
@@ -119,8 +117,6 @@ display_menu() {
   case "$choice" in
   "$BACKUP_OPTION")
     backup_save
-    ;;
-  "$SYNC_OPTION")
     sync_saves_to_local
     ;;
   "$FIND_OPTION")
