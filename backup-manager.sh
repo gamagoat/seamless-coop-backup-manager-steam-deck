@@ -48,9 +48,8 @@ backup_save() {
   backup_file="$backup_version_dir/ER0000-$(date +'%Y-%m-%d-%H-%M').co2.bak"
 
   if execute_remote "
-    DECK_BACKUP_DIR='$DECK_BACKUP_DIR'
     LATEST_COMPATDATA_PATH='$LATEST_COMPATDATA_PATH'
-    SEAMLESS_VERSION='$SEAMLESS_VERSION'
+
     backup_file='$backup_file'
     backup_version_dir='$backup_version_dir'
 
@@ -61,6 +60,35 @@ backup_save() {
     log info "Backup created at $backup_file"
   else
     log error "Backup failed on remote."
+  fi
+}
+
+backup_ersc_settings() {
+  local settings_file
+  settings_file="$SEAMLESS_COOP_DIR/$SETTINGS_FILE"
+
+  log debug "Backing up $settings_file"
+
+  local backup_dir
+  backup_dir="$DECK_BACKUP_DIR/settings"
+
+  log debug "$backup_dir will be created on the deck if it does not already exist."
+
+  local backup_file
+  backup_file="$backup_dir/$SETTINGS_FILE-$(date +'%Y-%m-%d-%H-%M')"
+
+  if execute_remote "
+    backup_dir='$backup_dir'
+    settings_file='$settings_file'
+    backup_file='$backup_file'
+
+    [ ! -d \"\$backup_dir\" ] && mkdir -p \"\$backup_dir\"
+
+    cp \"\$settings_file\" \"\$backup_file\"
+  "; then
+    log info "$SETTINGS_FILE backup complete at $backup_file"
+  else
+    log error "$SETTINGS_FILE backup failed on remote."
   fi
 }
 
@@ -98,14 +126,6 @@ find_eldenring_dirs() {
   else
     log error "Unable to complete the search."
   fi
-}
-
-backup_ersc_settings() {
-  log debug "Backing up $SEAMLESS_COOP_DIR/$SETTINGS_FILE"
-
-  ssh "$SSH_TARGET" "cp '$SEAMLESS_COOP_DIR/$SETTINGS_FILE' '$BACKUP_DIRECTORY/$SETTINGS_FILE-$(date +'%Y-%m-%d-%H-%M')'"
-
-  log info "$SETTINGS_FILE backup complete."
 }
 
 download_and_install_latest_seamless_coop_to_deck() {
@@ -161,7 +181,8 @@ download_and_install_latest_seamless_coop_to_deck() {
 # TODO: Currently only downloads and transfers the zip to the steam deck, but
 # does not yet unpack it.
 setup_latest_seamless_coop() {
-  download_and_install_latest_seamless_coop_to_deck
+  #  download_and_install_latest_seamless_coop_to_deck
+
   # TODO: merge the old settings with the new settings from the new release
   backup_ersc_settings
 }
