@@ -181,7 +181,7 @@ download_and_install_latest_seamless_coop_to_deck() {
 # TODO: Currently only downloads and transfers the zip to the steam deck, but
 # does not yet unpack it.
 setup_latest_seamless_coop() {
-  #  download_and_install_latest_seamless_coop_to_deck
+  download_and_install_latest_seamless_coop_to_deck
 
   # TODO: merge the old settings with the new settings from the new release
   backup_ersc_settings
