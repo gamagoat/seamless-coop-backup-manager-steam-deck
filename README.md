@@ -64,5 +64,6 @@ deck, including the compatdata dirs.
 * [x] Synchronize backups to a local machine
 * [x] List all relevant compatdata dirs
 * [ ] Download and unpack latest version of SeamlessCoop
+* [ ] Automatically update latest SeamlessCoop version via CI
 * [ ] Transfer backups from one version of SeamlessCoop to another
 * [ ] Generalize script to work with any game on Steam Deck
