@@ -98,6 +98,42 @@ find_eldenring_dirs() {
   fi
 }
 
+backup_ersc_settings() {
+  ssh "$deck_host" "cp '$deck_directory/$settings_file' '$deck_directory/$backup_directory/$settings_file'"
+}
+
+unpack_zip_and_overwrite() {
+  ssh "$deck_host" "unzip -o '$deck_directory/$filename' -d '$deck_directory'"
+}
+
+# Settings might be added or removed across different versions of the mod.
+# When changing versions, we should copy values from our previous settings file
+# if their keys still exist in the new settings file.
+merge_ersc_settings() {
+  local old_file
+  old_file="PATH TO OLD FILE"
+  local new_file
+  new_file="PATH TO NEW FILE"
+  local merged_file
+  merged_file="$deck_directory/merged_$settings_file"
+
+  # Open the old and new ersc_settings files in awk, and overwrite values for
+  # keys in the new settings file with their values from the old file.
+  # Does nothing for keys in the old file which do not exist in the new file.
+  ssh "$deck_host" "
+    awk '
+      NR == FNR {
+        a[\$1] = \$0
+        next
+      }
+      {
+        print (a[\$1] ? a[\$1] : \$0)
+      }
+    ' \"$old_file\" \"$new_file\" > \"$merged_file\" &&
+    mv \"$merged_file\" \"$new_file\"
+  "
+}
+
 # TODO: Currently only downloads and transfers the zip to the steam deck, but
 # does not yet unpack it.
 # We should also backup the previous .ini settings and be sure to merge the old
