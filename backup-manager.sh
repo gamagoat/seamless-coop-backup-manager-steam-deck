@@ -1,7 +1,4 @@
 #!/bin/bash
-# We want variable expansion to happen globally because all env vars are
-# declared locally. Disable the corresponding shellcheck
-# shellcheck disable=SC2029
 
 LATEST_COMPATDATA_PATH=""
 
@@ -32,6 +29,9 @@ log() {
   gum log --structured --level "$level" -- "$@"
 }
 
+# We want variable expansion to happen locally, as that's where our env vars
+# are defined.  Disable the corresponding shellcheck
+# shellcheck disable=SC2029
 execute_remote() {
   ssh "$SSH_TARGET" "$@"
 }
