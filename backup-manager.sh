@@ -36,60 +36,70 @@ execute_remote() {
   ssh "$SSH_TARGET" "$@"
 }
 
-backup_save() {
-  log debug "Attempting to backup a save on the remote"
+backup_file_on_remote() {
+  local source_file
+  source_file="$1"
 
+  local destination_dir
+  destination_dir="$2"
+
+  local destination_file
+  destination_file="$3"
+
+  local log_message
+  log_message="$4"
+
+  log debug "$log_message"
+
+  log debug "$destination_dir will be created on the deck if it does not already exist."
+
+  if execute_remote "
+    destination_dir='$destination_dir'
+    source_file='$source_file'
+    destination_file='$destination_file'
+
+    [ ! -d \"\$destination_dir\" ] && mkdir -p \"\$destination_dir\"
+
+    cp \"\$source_file\" \"\$destination_file\"
+  "; then
+    log info "Backup created at $destination_file"
+  else
+    log error "Backup failed on remote."
+  fi
+}
+
+backup_save() {
   local backup_version_dir
   backup_version_dir="$DECK_BACKUP_DIR/$SEAMLESS_VERSION"
-
-  log debug "$backup_version_dir will be created on the deck if it does not already exist."
 
   local backup_file
   backup_file="$backup_version_dir/ER0000-$(date +'%Y-%m-%d-%H-%M').co2.bak"
 
-  if execute_remote "
-    LATEST_COMPATDATA_PATH='$LATEST_COMPATDATA_PATH'
+  local save_file
+  save_file="$LATEST_COMPATDATA_PATH/ER0000.co2"
 
-    backup_file='$backup_file'
-    backup_version_dir='$backup_version_dir'
-
-    [ ! -d \"\$backup_version_dir\" ] && mkdir -p \"\$backup_version_dir\"
-
-    cp \"\$LATEST_COMPATDATA_PATH/ER0000.co2\" \"\$backup_file\"
-  "; then
-    log info "Backup created at $backup_file"
-  else
-    log error "Backup failed on remote."
-  fi
+  backup_file_on_remote \
+    "$source_file" \
+    "$backup_version_dir" \
+    "$backup_file" \
+    "Attempting to backup save file $save_file"
 }
 
 backup_ersc_settings() {
   local settings_file
   settings_file="$SEAMLESS_COOP_DIR/$SETTINGS_FILE"
 
-  log debug "Backing up $settings_file"
-
   local backup_dir
   backup_dir="$DECK_BACKUP_DIR/settings"
-
-  log debug "$backup_dir will be created on the deck if it does not already exist."
 
   local backup_file
   backup_file="$backup_dir/$SETTINGS_FILE-$(date +'%Y-%m-%d-%H-%M')"
 
-  if execute_remote "
-    backup_dir='$backup_dir'
-    settings_file='$settings_file'
-    backup_file='$backup_file'
-
-    [ ! -d \"\$backup_dir\" ] && mkdir -p \"\$backup_dir\"
-
-    cp \"\$settings_file\" \"\$backup_file\"
-  "; then
-    log info "$SETTINGS_FILE backup complete at $backup_file"
-  else
-    log error "$SETTINGS_FILE backup failed on remote."
-  fi
+  backup_file_on_remote \
+    "$settings_file" \
+    "$backup_dir" \
+    "$backup_file" \
+    "Backing up settings file $settings_file"
 }
 
 sync_saves_to_local() {
