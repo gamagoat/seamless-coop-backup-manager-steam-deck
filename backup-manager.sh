@@ -86,8 +86,8 @@ backup_save() {
 }
 
 backup_ersc_settings() {
-  local settings_file
-  settings_file="$SEAMLESS_COOP_DIR/$SETTINGS_FILE"
+  local settings_ini
+  settings_ini="$SEAMLESS_COOP_DIR/$SETTINGS_FILE"
 
   local backup_dir
   backup_dir="$DECK_BACKUP_DIR/settings"
@@ -96,10 +96,10 @@ backup_ersc_settings() {
   backup_file="$backup_dir/$SETTINGS_FILE-$(date +'%Y-%m-%d-%H-%M')"
 
   backup_file_on_remote \
-    "$settings_file" \
+    "$settings_ini" \
     "$backup_dir" \
     "$backup_file" \
-    "Backing up settings file $settings_file"
+    "Backing up settings file $settings_ini"
 }
 
 sync_saves_to_local() {
