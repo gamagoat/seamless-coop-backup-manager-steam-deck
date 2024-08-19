@@ -40,5 +40,7 @@ export COMPATDATA_ID_1_8_0="192837465"
 #                                                #
 ##################################################
 
+export SETTINGS_FILE="ersc_settings.ini"
+
 export BASE_PATH="/home/deck/.local/share/Steam/steamapps/compatdata"
 export ER_PFX_PATH="/pfx/drive_c/users/steamuser/AppData/Roaming/EldenRing/76561198004661457"
