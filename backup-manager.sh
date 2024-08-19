@@ -8,7 +8,7 @@ LATEST_COMPATDATA_PATH=""
 # Menu options
 BACKUP_OPTION="Create New Backup and Sync to Local"
 FIND_OPTION="Find Elden Ring Dirs"
-DOWNLOAD_OPTION="Download and Transfer Latest SeamlessCoop"
+#DOWNLOAD_OPTION="Download and Install Latest SeamlessCoop"
 EXIT_OPTION="Exit"
 
 set_latest_compatdata_path() {
