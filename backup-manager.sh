@@ -8,7 +8,7 @@ LATEST_COMPATDATA_PATH=""
 # Menu options
 BACKUP_OPTION="Create New Backup and Sync to Local"
 FIND_OPTION="Find Elden Ring Dirs"
-#DOWNLOAD_OPTION="Download and Install Latest SeamlessCoop"
+DOWNLOAD_OPTION="Download and Install Latest SeamlessCoop"
 EXIT_OPTION="Exit"
 
 set_latest_compatdata_path() {
@@ -100,39 +100,15 @@ find_eldenring_dirs() {
   fi
 }
 
-# Settings might be added or removed across different versions of the mod.
-# When changing versions, we should copy values from our previous settings file
-# if their keys still exist in the new settings file.
-merge_ersc_settings() {
-  local old_file
-  old_file="PATH TO OLD FILE"
-  local new_file
-  new_file="PATH TO NEW FILE"
-  local merged_file
-  merged_file="$DECK_BACKUP_DIR/merged_$SETTINGS_FILE"
+backup_ersc_settings() {
+  log debug "Backing up $SEAMLESS_COOP_DIR/$SETTINGS_FILE"
 
-  # Open the old and new ersc_settings files in awk, and overwrite values for
-  # keys in the new settings file with their values from the old file.
-  # Does nothing for keys in the old file which do not exist in the new file.
-  ssh "$DECK_BACKUP_DIR" "
-    awk '
-      NR == FNR {
-        a[\$1] = \$0
-        next
-      }
-      {
-        print (a[\$1] ? a[\$1] : \$0)
-      }
-    ' \"$old_file\" \"$new_file\" > \"$merged_file\" &&
-    mv \"$merged_file\" \"$new_file\"
-  "
+  ssh "$SSH_TARGET" "cp '$SEAMLESS_COOP_DIR/$SETTINGS_FILE' '$BACKUP_DIRECTORY/$SETTINGS_FILE-$(date +'%Y-%m-%d-%H-%M')'"
+
+  log info "$SETTINGS_FILE backup complete."
 }
 
-# TODO: Currently only downloads and transfers the zip to the steam deck, but
-# does not yet unpack it.
-# We should also backup the previous .ini settings and be sure to merge the old
-# values with the new ones.
-setup_latest_seamless_coop() {
+download_and_install_latest_seamless_coop_to_deck() {
   log debug "Fetching the latest release information from GitHub..."
 
   local repo
@@ -180,6 +156,14 @@ setup_latest_seamless_coop() {
   log debug "Download complete.  Transferring the file to the Steam Deck."
 
   scp "$filename" "$SSH_TARGET:$ELDEN_RING_EXE_DIR"
+}
+
+# TODO: Currently only downloads and transfers the zip to the steam deck, but
+# does not yet unpack it.
+setup_latest_seamless_coop() {
+  download_and_install_latest_seamless_coop_to_deck
+  # TODO: merge the old settings with the new settings from the new release
+  backup_ersc_settings
 }
 
 display_menu() {

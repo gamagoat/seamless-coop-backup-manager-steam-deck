@@ -39,6 +39,8 @@ export COMPATDATA_ID_1_8_0="192837465"
 #                 you're doing                   #
 #                                                #
 ##################################################
+export ELDEN_RING_EXE_DIR="/home/deck/.steam/steam/steamapps/common/ELDEN RING"
+export SEAMLESS_COOP_DIR="$ELDEN_RING_EXE_DIR/SeamlessCoop"
 
 export SETTINGS_FILE="ersc_settings.ini"
 
