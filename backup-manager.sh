@@ -79,7 +79,7 @@ backup_save() {
   save_file="$LATEST_COMPATDATA_PATH/ER0000.co2"
 
   backup_file_on_remote \
-    "$source_file" \
+    "$save_file" \
     "$backup_version_dir" \
     "$backup_file" \
     "Attempting to backup save file $save_file"
